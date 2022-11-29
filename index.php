@@ -14,11 +14,17 @@
 // Gestire ulteriori parametri per la password: quali caratteri usare fra numeri, lettere e simboli. Possono essere scelti singolarmente (es. solo numeri) oppure possono essere combinati fra loro (es. numeri e simboli, oppure tutti e tre insieme).
 // Dare all’utente anche la possibilità di permettere o meno la ripetizione di caratteri uguali.
 
+session_start();
+
 $pass_lenght = $_GET["pass_lenght"] ?? "";
 $pass_lenght = intval($pass_lenght);
 
 // include_once __DIR__ . '/functions.php';
 include_once __DIR__ . '/functions/functions.php';
+
+if (!empty($pass_lenght)) {
+    $_SESSION["password"] = generatorPass($pass_lenght);
+}
 
 ?>
 
@@ -89,12 +95,9 @@ include_once __DIR__ . '/functions/functions.php';
             </fieldset>
             <button type="submit" class="btn btn-primary">Invia</button>
             <button type="reset" class="btn btn-secondary">Annulla</button>
-            <div class="col">
-                <h3 class=" mt-5">
-                    La password generata è:
-                    <?php echo generatorPass($pass_lenght); ?>
-                </h3>
-            </div>
+            <?php if ($pass_lenght != 0) { ?>
+            <a class="btn btn-success" href="recover.php">Recupera password</a>
+            <?php } ?>
         </form>
     </div>
 </body>
